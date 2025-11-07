@@ -302,6 +302,16 @@
       .note a { color: var(--blue-500); text-decoration: underline; }
       .events-subhead { font-size: 1.1rem; margin: 0.5rem 0 0.75rem; color: var(--text); }
 
+      /* Enhanced event card layout */
+      .event-card { position: relative; }
+      .event-card .title-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+      .chip { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.25rem 0.55rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(46,120,255,0.15); color: var(--blue-500); background: var(--blue-50); }
+      .chip.past { color: #6b7280; background: #f3f4f6; border-color: #e5e7eb; }
+      .meta-grid { display: grid; gap: 0.5rem; grid-template-columns: 1fr; margin-top: 0.5rem; }
+      @media (min-width: 620px) { .meta-grid { grid-template-columns: 1fr 1fr; } }
+      .meta-item { display: flex; align-items: flex-start; gap: 0.5rem; color: var(--muted); }
+      .meta-item .icon { width: 22px; height: 22px; display: inline-grid; place-items: center; border-radius: 6px; background: var(--blue-50); color: var(--blue-500); font-size: 12px; }
+
       /* Gallery */
       .gallery-grid {
         display: grid; gap: 0.75rem;
@@ -814,9 +824,10 @@
           const upcoming = Array.isArray(data.upcoming) ? data.upcoming : [];
           const past = Array.isArray(data.past) ? data.past : [];
           const grid = document.querySelector('#events .events-grid');
-          if (!grid) return;
+          const container = document.querySelector('#events .container');
+          if (!grid || !container) return;
 
-          const renderCard = (ev) => `
+          const simpleCard = (ev, isPast = false) => `
             <article class="card event-card reveal in-view">
               <h3 style="margin-top:0">${ev.title || ''}</h3>
               <div class="meta">
@@ -826,25 +837,30 @@
                 ${ev.beneficiary ? `<div><b>Benefitting:</b> ${ev.beneficiary}</div>` : ''}
               </div>
               <div class="event-actions">
-                ${ev.registerUrl ? `<a class="btn btn-primary" href="${ev.registerUrl}" target="_blank" rel="noopener noreferrer">${past.includes(ev) ? 'Details' : 'Register'}</a>` : ''}
+                ${ev.registerUrl ? `<a class="btn btn-primary" href="${ev.registerUrl}" target="_blank" rel="noopener noreferrer">${isPast ? 'Details' : 'Register'}</a>` : ''}
               </div>
               ${ev.note ? `<p class="note">${ev.note}</p>` : ''}
             </article>`;
 
-          let html = '';
+          // Upcoming: format like other sections (title is already in section head), populate the existing grid only with upcoming cards
           if (upcoming.length) {
-            html += `<h3 class="events-subhead">Upcoming Events</h3>`;
-            html += `<div class="events-grid">${upcoming.map(renderCard).join('')}</div>`;
+            grid.innerHTML = upcoming.map(ev => simpleCard(ev, false)).join('');
+          } else {
+            grid.innerHTML = '<p class="section-sub">No upcoming events right now. Check back soon.</p>';
           }
+
+          // Past: render below the main grid as a separate block
+          const existingPast = container.querySelector('#pastEventsBlock');
+          if (existingPast) existingPast.remove();
           if (past.length) {
-            html += `<h3 class="events-subhead" style="margin-top:1rem">Past Events</h3>`;
-            html += `<div class="events-grid">${past.map(renderCard).join('')}</div>`;
+            const wrap = document.createElement('div');
+            wrap.id = 'pastEventsBlock';
+            wrap.innerHTML = `
+              <h3 class="events-subhead" style="margin-top:1rem">Past Events</h3>
+              <div class="events-grid">${past.map(ev => simpleCard(ev, true)).join('')}</div>
+            `;
+            container.appendChild(wrap);
           }
-          if (!html) {
-            html = '<p class="section-sub">No events to show right now. Check back soon.</p>';
-          }
-          // Replace the single grid with combined layout
-          grid.innerHTML = html;
         } catch {}
       }
 

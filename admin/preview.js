@@ -55,8 +55,8 @@ function Volunteers({ items }) {
 }
 
 function Events({ upcoming, past }) {
-  const Card = (ev, key) => h('article', { key, className: 'card' },
-    h('h4', null, ev.title || ''),
+  const Card = (ev, key, isPast) => h('article', { key, className: 'card event-card' },
+    h('h4', { style: { marginTop: 0 } }, ev.title || ''),
     h('div', { className: 'meta' },
       ev.date && h('div', null, h('b', null, 'Date: '), ev.date),
       ev.time && h('div', null, h('b', null, 'Time: '), ev.time),
@@ -64,7 +64,7 @@ function Events({ upcoming, past }) {
       ev.beneficiary && h('div', null, h('b', null, 'Benefitting: '), ev.beneficiary)
     ),
     h('div', { className: 'event-actions' },
-      ev.registerUrl && h('a', { className: 'btn btn-primary', href: '#' }, 'Register')
+      ev.registerUrl && h('a', { className: 'btn btn-primary', href: '#' }, isPast ? 'Details' : 'Register')
     ),
     ev.note && h('p', { className: 'note' }, ev.note)
   );
@@ -73,11 +73,11 @@ function Events({ upcoming, past }) {
     h(Wrapper, null,
       (upcoming && upcoming.length) && [
         h('h3', { key: 'uh', className: 'events-subhead' }, 'Upcoming Events'),
-        h('div', { key: 'ug', className: 'events-grid' }, upcoming.map(Card))
+        h('div', { key: 'ug', className: 'events-grid' }, upcoming.map((ev, i) => Card(ev, i, false)))
       ],
       (past && past.length) && [
         h('h3', { key: 'ph', className: 'events-subhead' }, 'Past Events'),
-        h('div', { key: 'pg', className: 'events-grid' }, past.map(Card))
+        h('div', { key: 'pg', className: 'events-grid' }, past.map((ev, i) => Card(ev, i, true)))
       ]
     )
   );
@@ -161,4 +161,3 @@ CMS.registerPreviewTemplate('contact', ({ entry }) => {
     phoneDisplay: data.get('phoneDisplay')
   });
 });
-

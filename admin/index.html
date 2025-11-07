@@ -8,11 +8,12 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
       body { margin: 0; font-family: -apple-system, system-ui, Segoe UI, Roboto, Arial, sans-serif; }
-      .brand { padding: 10px 14px; font-weight: 600; border-bottom: 1px solid #e5e7eb; }
+      .brand { padding: 10px 14px; font-weight: 600; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .brand a { font-weight: 600; color: #2e78ff; text-decoration: none; background: #eaf4ff; padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(46,120,255,0.15); }
     </style>
   </head>
   <body>
-    <div class="brand">Anastasia’s Light — Admin</div>
+    <div class="brand">Anastasia’s Light — Admin <a href="/" target="_blank" rel="noopener">Open site</a></div>
     <!-- Decap CMS will mount here -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script src="/admin/preview.js"></script>
