@@ -27,3 +27,47 @@ collections:
           - { label: "About Paragraph 2", name: aboutP2, widget: text }
           - { label: "Footer Text", name: footerText, widget: string }
 
+      - file: "content/events.json"
+        name: "events"
+        label: "Events"
+        description: "Manage the list of events"
+        fields:
+          - label: Events
+            name: events
+            widget: list
+            summary: "{{fields.title}} — {{fields.date}}"
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Date, name: date, widget: string, hint: "e.g. Sunday, February 1, 2026" }
+              - { label: Time, name: time, widget: string, hint: "e.g. 2:00–4:00 pm" }
+              - { label: Location, name: location, widget: string }
+              - { label: Benefitting, name: beneficiary, widget: string }
+              - { label: Register URL, name: registerUrl, widget: string }
+              - { label: Note (optional), name: note, widget: text, required: false }
+
+      - file: "content/volunteers.json"
+        name: "volunteers"
+        label: "Volunteers"
+        description: "Manage the volunteer cards"
+        fields:
+          - label: Volunteers
+            name: volunteers
+            widget: list
+            summary: "{{fields.name}} — {{fields.role}}"
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Role, name: role, widget: string }
+              - { label: Blurb, name: blurb, widget: text }
+              - { label: Avatar Image, name: avatarUrl, widget: image, allow_multiple: false }
+
+      - file: "content/gallery.json"
+        name: "gallery"
+        label: "Gallery"
+        description: "Manage gallery images"
+        fields:
+          - label: Images
+            name: items
+            widget: list
+            fields:
+              - { label: Image, name: url, widget: image }
+              - { label: Alt text, name: alt, widget: string }

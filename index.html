@@ -777,9 +777,75 @@
         }
       }
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadSiteContent);
+        document.addEventListener('DOMContentLoaded', () => { loadSiteContent(); loadVolunteers(); loadEvents(); loadGallery(); });
       } else {
-        loadSiteContent();
+        loadSiteContent(); loadVolunteers(); loadEvents(); loadGallery();
+      }
+
+      // Render Volunteers from JSON
+      async function loadVolunteers() {
+        try {
+          const res = await fetch('content/volunteers.json', { cache: 'no-cache' });
+          if (!res.ok) return;
+          const { volunteers } = await res.json();
+          if (!Array.isArray(volunteers)) return;
+          const grid = document.querySelector('#volunteers .vol-grid');
+          if (!grid) return;
+          grid.innerHTML = volunteers.map(v => `
+            <article class="card reveal in-view" aria-label="Volunteer">
+              <div class="avatar">
+                <img src="${v.avatarUrl || ''}" alt="${(v.name || 'Volunteer') + ' avatar'}" />
+              </div>
+              <h3 style="margin:0 0 0.25rem">${v.name || ''}</h3>
+              <div class="role">${v.role || ''}</div>
+              <p class="blurb">${v.blurb || ''}</p>
+            </article>
+          `).join('');
+        } catch {}
+      }
+
+      // Render Events from JSON
+      async function loadEvents() {
+        try {
+          const res = await fetch('content/events.json', { cache: 'no-cache' });
+          if (!res.ok) return;
+          const { events } = await res.json();
+          if (!Array.isArray(events)) return;
+          const grid = document.querySelector('#events .events-grid');
+          if (!grid) return;
+          grid.innerHTML = events.map(ev => `
+            <article class="card event-card reveal in-view">
+              <h3 style="margin-top:0">${ev.title || ''}</h3>
+              <div class="meta">
+                ${ev.date ? `<div><b>Date:</b> ${ev.date}</div>` : ''}
+                ${ev.time ? `<div><b>Time:</b> ${ev.time}</div>` : ''}
+                ${ev.location ? `<div><b>Location:</b> ${ev.location}</div>` : ''}
+                ${ev.beneficiary ? `<div><b>Benefitting:</b> ${ev.beneficiary}</div>` : ''}
+              </div>
+              <div class="event-actions">
+                ${ev.registerUrl ? `<a class="btn btn-primary" href="${ev.registerUrl}" target="_blank" rel="noopener noreferrer">Register</a>` : ''}
+              </div>
+              ${ev.note ? `<p class="note">${ev.note}</p>` : ''}
+            </article>
+          `).join('');
+        } catch {}
+      }
+
+      // Render Gallery from JSON
+      async function loadGallery() {
+        try {
+          const res = await fetch('content/gallery.json', { cache: 'no-cache' });
+          if (!res.ok) return;
+          const { items } = await res.json();
+          if (!Array.isArray(items)) return;
+          const grid = document.querySelector('#gallery .gallery-grid');
+          if (!grid) return;
+          grid.innerHTML = items.map(img => `
+            <a class="reveal in-view" href="#" aria-label="Gallery image">
+              <img src="${img.url || ''}" alt="${img.alt || ''}" />
+            </a>
+          `).join('');
+        } catch {}
       }
 
       // Mobile nav toggle

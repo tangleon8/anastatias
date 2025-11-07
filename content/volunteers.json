@@ -1,0 +1,29 @@
+{
+  "volunteers": [
+    {
+      "name": "Alex Morgan",
+      "role": "Founder",
+      "blurb": "Honoring Anastasia’s legacy by expanding access to mental health care.",
+      "avatarUrl": "https://via.placeholder.com/160/2e78ff/eaf4ff?text=AL"
+    },
+    {
+      "name": "Jamie Lee",
+      "role": "Event Coordinator",
+      "blurb": "Designs uplifting, inclusive events that bring our community together.",
+      "avatarUrl": "https://via.placeholder.com/160/ffeaf4/2e78ff?text=EC"
+    },
+    {
+      "name": "Riley Patel",
+      "role": "Sponsorships",
+      "blurb": "Builds partnerships that multiply impact for local nonprofits.",
+      "avatarUrl": "https://via.placeholder.com/160/eaf4ff/2e78ff?text=SP"
+    },
+    {
+      "name": "Taylor Brooks",
+      "role": "Public Relations",
+      "blurb": "Shares stories of hope and connects people with resources.",
+      "avatarUrl": "https://via.placeholder.com/160/2e78ff/ffeaf4?text=PR"
+    }
+  ]
+}
+
