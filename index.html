@@ -300,6 +300,7 @@
       .event-actions { margin-top: 0.8rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
       .note { font-size: 0.95rem; color: var(--muted); margin-top: 0.65rem; }
       .note a { color: var(--blue-500); text-decoration: underline; }
+      .events-subhead { font-size: 1.1rem; margin: 0.5rem 0 0.75rem; color: var(--text); }
 
       /* Gallery */
       .gallery-grid {
@@ -804,16 +805,18 @@
         } catch {}
       }
 
-      // Render Events from JSON
+      // Render Events from JSON (upcoming + past)
       async function loadEvents() {
         try {
           const res = await fetch('content/events.json', { cache: 'no-cache' });
           if (!res.ok) return;
-          const { events } = await res.json();
-          if (!Array.isArray(events)) return;
+          const data = await res.json();
+          const upcoming = Array.isArray(data.upcoming) ? data.upcoming : [];
+          const past = Array.isArray(data.past) ? data.past : [];
           const grid = document.querySelector('#events .events-grid');
           if (!grid) return;
-          grid.innerHTML = events.map(ev => `
+
+          const renderCard = (ev) => `
             <article class="card event-card reveal in-view">
               <h3 style="margin-top:0">${ev.title || ''}</h3>
               <div class="meta">
@@ -823,11 +826,25 @@
                 ${ev.beneficiary ? `<div><b>Benefitting:</b> ${ev.beneficiary}</div>` : ''}
               </div>
               <div class="event-actions">
-                ${ev.registerUrl ? `<a class="btn btn-primary" href="${ev.registerUrl}" target="_blank" rel="noopener noreferrer">Register</a>` : ''}
+                ${ev.registerUrl ? `<a class="btn btn-primary" href="${ev.registerUrl}" target="_blank" rel="noopener noreferrer">${past.includes(ev) ? 'Details' : 'Register'}</a>` : ''}
               </div>
               ${ev.note ? `<p class="note">${ev.note}</p>` : ''}
-            </article>
-          `).join('');
+            </article>`;
+
+          let html = '';
+          if (upcoming.length) {
+            html += `<h3 class="events-subhead">Upcoming Events</h3>`;
+            html += `<div class="events-grid">${upcoming.map(renderCard).join('')}</div>`;
+          }
+          if (past.length) {
+            html += `<h3 class="events-subhead" style="margin-top:1rem">Past Events</h3>`;
+            html += `<div class="events-grid">${past.map(renderCard).join('')}</div>`;
+          }
+          if (!html) {
+            html = '<p class="section-sub">No events to show right now. Check back soon.</p>';
+          }
+          // Replace the single grid with combined layout
+          grid.innerHTML = html;
         } catch {}
       }
 

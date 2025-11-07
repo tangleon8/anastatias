@@ -30,19 +30,31 @@ collections:
       - file: "content/events.json"
         name: "events"
         label: "Events"
-        description: "Manage the list of events"
+        description: "Manage upcoming and past events"
         fields:
-          - label: Events
-            name: events
+          - label: Upcoming Events
+            name: upcoming
             widget: list
             summary: "{{fields.title}} — {{fields.date}}"
             fields:
               - { label: Title, name: title, widget: string }
-              - { label: Date, name: date, widget: string, hint: "e.g. Sunday, February 1, 2026" }
+              - { label: Date (display), name: date, widget: string, hint: "e.g. Sunday, February 1, 2026" }
               - { label: Time, name: time, widget: string, hint: "e.g. 2:00–4:00 pm" }
               - { label: Location, name: location, widget: string }
               - { label: Benefitting, name: beneficiary, widget: string }
               - { label: Register URL, name: registerUrl, widget: string }
+              - { label: Note (optional), name: note, widget: text, required: false }
+          - label: Past Events
+            name: past
+            widget: list
+            summary: "{{fields.title}} — {{fields.date}}"
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Date (display), name: date, widget: string }
+              - { label: Time, name: time, widget: string, required: false }
+              - { label: Location, name: location, widget: string, required: false }
+              - { label: Benefitting, name: beneficiary, widget: string, required: false }
+              - { label: Link (optional), name: registerUrl, widget: string, required: false }
               - { label: Note (optional), name: note, widget: text, required: false }
 
       - file: "content/volunteers.json"
