@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Anastasia’s Light — Shining a light on mental health</title>
+    <meta name="description" content="Anastasia’s Light is a 501(c)(3) nonprofit honoring Anastasia and supporting mental health organizations through community events and partnerships." />
+    <meta name="theme-color" content="#2e78ff" />
+    <!-- Google Font: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Favicon: inline SVG (blue gradient + heart) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%232e78ff'/%3E%3Cstop offset='100%25' stop-color='%2366a0ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect rx='12' width='64' height='64' fill='url(%23g)'/%3E%3Cpath d='M32 45c-8-5.6-14-10-14-17.2C18 22 22.5 18 28 18c2.9 0 5.6 1.5 7.4 3.9C37.3 19.5 40 18 43 18c5.5 0 10 4 10 9.8 0 7.2-6 11.6-14 17.2z' fill='%23ffffff' fill-opacity='0.95'/%3E%3C/svg%3E" />
+
+    <style>
+      /*
+        Anastasia’s Light — Single-file site
+        Colors: white #ffffff, light blue #eaf4ff, accent blue #2e78ff, soft pink #ffeaf4
+        Design: bright, airy, rounded corners, soft shadows
+        Layout: mobile-first, responsive with flexbox & grid
+      */
+
+      :root {
+        --white: #ffffff;
+        --blue-50: #eaf4ff;
+        --blue-500: #2e78ff;
+        --blue-600: #1f61e6;
+        --pink-50: #ffeaf4;
+        --text: #1f2a44;
+        --muted: #5b6b8a;
+        --shadow: 0 10px 30px rgba(46, 120, 255, 0.08);
+        --shadow-lg: 0 18px 50px rgba(46,120,255,0.18);
+        --shadow-sm: 0 6px 16px rgba(46,120,255,0.12);
+        --radius: 1rem;
+        --container: 1100px;
+        --header-h: 64px; /* updated via JS for accuracy */
+        --space-1: 0.5rem;
+        --space-2: 0.75rem;
+        --space-3: 1rem;
+        --space-4: 1.5rem;
+        --space-5: 2rem;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth; /* Smooth scrolling for in-page anchors */
+        scroll-padding-top: var(--header-h); /* prevent sticky header overlap on anchor jumps */
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+        color: var(--text);
+        background:
+          radial-gradient(1200px 600px at 20% -10%, rgba(234, 244, 255, 0.9), transparent 60%),
+          radial-gradient(900px 500px at 100% 0%, rgba(255, 234, 244, 0.6), transparent 50%),
+          var(--white);
+        line-height: 1.6;
+        font-size: 16px;
+      }
+      @media (min-width: 900px) { body { font-size: 17px; } }
+      @media (min-width: 1200px) { body { font-size: 18px; } }
+
+      a { color: inherit; text-decoration: none; }
+      img { max-width: 100%; display: block; }
+
+      .container {
+        width: 100%;
+        max-width: var(--container);
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      /* Header / Navbar */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(255,255,255,0.9);
+        backdrop-filter: saturate(150%) blur(8px);
+        border-bottom: 1px solid rgba(46,120,255,0.08);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 0.5rem;
+        gap: 1rem;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--blue-500);
+        letter-spacing: 0.2px;
+      }
+
+      .brand-mark {
+        width: 34px; height: 34px; border-radius: 10px;
+        background: linear-gradient(135deg, var(--blue-500), #66a0ff);
+        box-shadow: var(--shadow);
+        display: grid; place-items: center;
+        color: white;
+        font-size: 18px;
+      }
+
+      .nav-links {
+        display: none; /* mobile: hidden until toggled */
+        flex-direction: column;
+        gap: 0.6rem;
+        position: absolute;
+        top: calc(var(--header-h) + 6px);
+        right: 1rem;
+        background: var(--white);
+        padding: 0.75rem;
+        border-radius: calc(var(--radius) - 0.25rem);
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(46,120,255,0.08);
+      }
+
+      .nav-links a {
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.75rem;
+        color: var(--muted);
+        font-weight: 500;
+        position: relative;
+        transition: color 160ms ease, background-color 160ms ease;
+      }
+
+      .nav-links a:hover {
+        background: var(--blue-50);
+        color: var(--blue-500);
+      }
+
+      .nav-links a.active,
+      .nav-links a[aria-current="true"] {
+        background: var(--blue-50);
+        color: var(--blue-500);
+      }
+      /* Underline accent for active/hover on larger screens */
+      @media (min-width: 860px) {
+        .nav-links a::after {
+          content: ""; position: absolute; left: 0.6rem; right: 0.6rem; bottom: 0.25rem; height: 2px;
+          background: linear-gradient(90deg, var(--blue-500), #66a0ff);
+          border-radius: 2px; opacity: 0; transform: scaleX(0.6);
+          transition: opacity 160ms ease, transform 160ms ease;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after,
+        .nav-links a[aria-current="true"]::after { opacity: 1; transform: scaleX(1); }
+      }
+
+      .hamburger {
+        border: 0; background: var(--white); color: var(--blue-500);
+        padding: 0.5rem 0.65rem; border-radius: 0.75rem;
+        box-shadow: var(--shadow);
+        display: grid; place-items: center;
+        cursor: pointer;
+      }
+
+      .hamburger span {
+        display: block;
+        width: 22px; height: 2px; background: var(--blue-500);
+        position: relative; transition: transform 200ms ease;
+      }
+      .hamburger span::before, .hamburger span::after {
+        content: ""; position: absolute; left: 0; width: 22px; height: 2px; background: var(--blue-500);
+        transition: transform 200ms ease, opacity 200ms ease, top 200ms ease;
+      }
+      .hamburger span::before { top: -6px; }
+      .hamburger span::after  { top:  6px; }
+      .hamburger[aria-expanded="true"] span { background: transparent; }
+      .hamburger[aria-expanded="true"] span::before { transform: rotate(45deg); top: 0; }
+      .hamburger[aria-expanded="true"] span::after  { transform: rotate(-45deg); top: 0; }
+
+      .nav.open .nav-links { display: flex; }
+
+      /* Desktop nav */
+      @media (min-width: 860px) {
+        .nav { padding: 0.85rem 0; }
+        .nav-links {
+          display: flex !important; position: static; flex-direction: row; background: transparent; box-shadow: none; border: 0; padding: 0; gap: 0.25rem;
+        }
+        .nav-links a { padding: 0.5rem 0.75rem; }
+        .hamburger { display: none; }
+      }
+
+      /* Hero */
+      .hero {
+        padding: 3rem 0 2.25rem;
+        background: linear-gradient(180deg, rgba(234,244,255,0.55), rgba(255,234,244,0));
+      }
+      .hero-wrap {
+        display: grid; gap: 1.75rem; align-items: center;
+      }
+      .hero h1 {
+        font-size: clamp(1.8rem, 4.5vw, 3rem);
+        line-height: 1.15;
+        margin: 0 0 0.75rem;
+        letter-spacing: 0.2px;
+        /* Subtle glow for a hopeful feel */
+        text-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 10px 24px rgba(46,120,255,0.2);
+      }
+      .hero p {
+        color: var(--muted);
+        margin: 0 0 1.25rem;
+        max-width: 65ch;
+      }
+
+      .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 0.5rem; padding: 0.8rem 1.1rem; border-radius: 0.9rem;
+        font-weight: 600; border: 2px solid transparent; cursor: pointer;
+        transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+      }
+      .btn:focus { outline: none; }
+      .btn-primary { background: linear-gradient(180deg, var(--blue-500), var(--blue-600)); color: white; box-shadow: 0 8px 24px rgba(46,120,255,0.25); }
+      .btn-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 12px 30px rgba(46,120,255,0.3); }
+      .btn-secondary { background: var(--pink-50); color: var(--blue-500); border-color: rgba(46,120,255,0.15); }
+      .btn-secondary:hover { transform: translateY(-2px) scale(1.02); box-shadow: var(--shadow-sm); }
+      .btn:focus-visible { box-shadow: 0 0 0 3px rgba(46,120,255,0.35); }
+
+      .hero-visual {
+        background: linear-gradient(180deg, var(--blue-50), var(--pink-50));
+        border-radius: var(--radius);
+        padding: 1rem; box-shadow: var(--shadow);
+        border: 1px solid rgba(46,120,255,0.1);
+      }
+
+      @media (min-width: 900px) {
+        .hero { padding: 4rem 0 3rem; }
+        .hero-wrap { grid-template-columns: 1.1fr 0.9fr; gap: 2.25rem; }
+      }
+
+      /* Sections */
+      section { padding: 2.5rem 0; scroll-margin-top: var(--header-h); }
+      /* Alternating section tint for rhythm */
+      main > section:nth-of-type(odd):not(.hero):not(.donate) {
+        background: linear-gradient(180deg, rgba(46,120,255,0.03), rgba(46,120,255,0));
+      }
+      section .section-head { margin-bottom: 1.25rem; }
+      .eyebrow { color: var(--blue-500); font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; font-size: 0.78rem; }
+      .section-title { margin: 0.4rem 0 0.25rem; font-size: clamp(1.3rem, 3.2vw, 2rem); }
+      .section-sub { color: var(--muted); margin: 0.25rem 0 0; }
+
+      /* About */
+      .about-grid { display: grid; gap: 1rem; }
+      .about-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 1rem;
+        border: 1px solid rgba(46,120,255,0.08);
+      }
+      .facts { display: grid; gap: 0.5rem; }
+      .fact { background: var(--blue-50); border-radius: 0.8rem; padding: 0.75rem; }
+      .fact b { color: var(--blue-500); }
+      @media (min-width: 860px) { .about-grid { grid-template-columns: 1.2fr 0.8fr; gap: 1.5rem; } }
+
+      /* Volunteers */
+      .vol-grid {
+        display: grid; gap: 1rem;
+        grid-template-columns: 1fr;
+      }
+      @media (min-width: 640px) { .vol-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (min-width: 980px) { .vol-grid { grid-template-columns: repeat(4, 1fr); } }
+      .card {
+        background: var(--white);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 1rem;
+        border: 1px solid rgba(46,120,255,0.08);
+        transition: transform 180ms ease, box-shadow 180ms ease;
+      }
+      @media (hover: hover) {
+        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+      }
+      .avatar {
+        width: 84px; height: 84px; border-radius: 999px; overflow: hidden; margin-bottom: 0.6rem;
+        border: 4px solid var(--blue-50);
+        box-shadow: 0 6px 18px rgba(46,120,255,0.12);
+      }
+      .role { color: var(--blue-500); font-weight: 600; font-size: 0.95rem; }
+      .blurb { color: var(--muted); font-size: 0.95rem; }
+
+      /* Events */
+      .events-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+      @media (min-width: 780px) { .events-grid { grid-template-columns: repeat(2, 1fr); } }
+      .event-card .meta { color: var(--muted); }
+      .event-card .meta div { margin: 0.25rem 0; }
+      .event-actions { margin-top: 0.8rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+      .note { font-size: 0.95rem; color: var(--muted); margin-top: 0.65rem; }
+      .note a { color: var(--blue-500); text-decoration: underline; }
+
+      /* Gallery */
+      .gallery-grid {
+        display: grid; gap: 0.75rem;
+        grid-template-columns: 1fr;
+      }
+      @media (min-width: 640px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (min-width: 980px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+      .gallery-grid a { display: block; overflow: hidden; border-radius: var(--radius); box-shadow: var(--shadow); }
+      .gallery-grid img { transition: transform 300ms ease; border-radius: var(--radius); }
+      @media (hover:hover) {
+        .gallery-grid a:hover img { transform: scale(1.06); }
+      }
+
+      /* Contact */
+      .contact-wrap { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+      @media (min-width: 860px) { .contact-wrap { grid-template-columns: 0.9fr 1.1fr; gap: 1.5rem; } }
+      .contact-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1rem; border: 1px solid rgba(46,120,255,0.08); }
+      .contact-card a { color: var(--blue-500); text-decoration: underline; }
+      form .row { display: grid; gap: 0.6rem; grid-template-columns: 1fr; }
+      @media (min-width: 520px) { form .row { grid-template-columns: 1fr 1fr; } }
+      label { font-weight: 600; font-size: 0.95rem; }
+      input, textarea {
+        width: 100%; padding: 0.8rem 0.9rem; border-radius: 0.75rem;
+        border: 1.5px solid rgba(46,120,255,0.2); background: #fff;
+        box-shadow: inset 0 1px 0 rgba(46,120,255,0.04);
+        font-family: inherit; font-size: 1rem; color: var(--text);
+      }
+      textarea { min-height: 140px; resize: vertical; }
+      input:focus, textarea:focus { outline: none; border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(46,120,255,0.15); }
+
+      /* Donate CTA */
+      .donate {
+        background: linear-gradient(180deg, rgba(234,244,255,0.7), rgba(255,234,244,0.7));
+        border-top: 1px solid rgba(46,120,255,0.08);
+        border-bottom: 1px solid rgba(46,120,255,0.08);
+      }
+      .donate .cta {
+        background: #fff; border-radius: var(--radius); padding: 1rem; box-shadow: var(--shadow); border: 1px solid rgba(46,120,255,0.08);
+        display: grid; gap: 0.5rem; justify-items: start;
+      }
+      .donate .cta .btn-primary { box-shadow: 0 10px 28px rgba(46,120,255,0.3); }
+      @media (min-width: 840px) {
+        .donate .cta { grid-template-columns: 1fr auto; align-items: center; }
+      }
+
+      /* Footer */
+      footer { padding: 1.25rem 0; color: var(--muted); text-align: center; font-size: 0.95rem; }
+      footer a { color: var(--blue-500); text-decoration: underline; }
+
+      /* Section heading accents */
+      .section-title { position: relative; display: inline-block; }
+      .section-title::after {
+        content: ""; display: block; height: 3px; width: 64px; margin-top: 8px;
+        background: linear-gradient(90deg, var(--blue-500), #66a0ff);
+        border-radius: 2px;
+      }
+
+      /* Scroll reveal animations */
+      .reveal { opacity: 0; transform: translateY(18px); transition: opacity 600ms ease, transform 600ms ease; }
+      .reveal.in-view { opacity: 1; transform: translateY(0); }
+      @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+      /* Lights overlay animation (on load) */
+      .lights-overlay {
+        position: fixed; inset: 0; pointer-events: none; overflow: hidden;
+        z-index: 1200; /* above header */
+        /* Use normal blending so beams stay visibly blue on white */
+        mix-blend-mode: normal;
+      }
+      .lights-overlay .beam {
+        position: absolute; top: -120vh;
+        height: 50vh; width: 12vw; min-width: 80px; max-width: 200px;
+        opacity: 0.7;
+        background: linear-gradient(
+          to bottom,
+          rgba(46,120,255,0) 0%,
+          rgba(46,120,255,0.55) 18%,
+          rgba(46,120,255,0.9) 58%,
+          rgba(46,120,255,1) 100%
+        );
+        filter: blur(4px);
+        box-shadow: 0 12px 36px rgba(46,120,255,0.35), 0 0 28px rgba(46,120,255,0.28) inset;
+        border-radius: 2rem;
+        transform: translateY(-120vh) rotate(var(--r, 0deg));
+        animation: beamDrop var(--dur, 2800ms) ease-in-out var(--delay, 0ms) forwards;
+      }
+      @keyframes beamDrop {
+        0% { transform: translateY(-120vh) rotate(var(--r, 0deg)); opacity: 0; }
+        15% { opacity: 0.9; }
+        70% { opacity: 0.7; }
+        100% { transform: translateY(120vh) rotate(var(--r, 0deg)); opacity: 0; }
+      }
+      .lights-overlay .spark {
+        position: absolute; top: -10vh; left: 0;
+        width: var(--sz, 10px); height: var(--sz, 10px);
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 30%, #ffffff, rgba(255,255,255,0.7) 40%, rgba(46,120,255,0.5) 65%, rgba(46,120,255,0) 72%);
+        box-shadow: 0 0 16px rgba(46,120,255,0.6), 0 0 28px rgba(46,120,255,0.35);
+        transform: translate(var(--x, 0px), -10vh) scale(var(--s, 1));
+        opacity: 0;
+        animation: sparkFall var(--sdur, 3400ms) linear var(--sdelay, 60ms) forwards;
+      }
+      @keyframes sparkFall {
+        0% { opacity: 0; transform: translate(var(--x, 0px), -12vh) scale(var(--s, 1)); }
+        10% { opacity: 1; }
+        100% { opacity: 0; transform: translate(calc(var(--x, 0px) + var(--drift, 0px)), 112vh) scale(var(--s, 1)); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header / Navbar -->
+    <header class="site-header">
+      <div class="container nav" id="top">
+        <a href="#home" class="brand" aria-label="Go to home">
+          <span class="brand-mark" aria-hidden="true">✨</span>
+          <span>Anastasia’s Light</span>
+        </a>
+
+        <button class="hamburger" id="navToggle" aria-label="Toggle menu" aria-controls="primaryNav" aria-expanded="false">
+          <span></span>
+        </button>
+
+        <nav class="nav-links" id="primaryNav" aria-label="Primary">
+          <!-- Update labels or order if needed -->
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#volunteers">Meet the Volunteers</a>
+          <a href="#events">Events</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#contact">Contact</a>
+          <!-- Donate in nav scrolls to CTA section; buttons open Stripe in new tab. -->
+          <a href="#donate">Donate</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="home">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="container hero-wrap">
+          <div class="reveal">
+            <h1>Shining a light on mental health</h1>
+            <p>
+              Anastasia’s Light is a 501(c)(3) created to honor Anastasia and support nonprofits providing life-changing mental health services for our community.
+            </p>
+            <div class="cta-row">
+              <!-- Sign-up button: opens Google Form in a new tab -->
+              <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSchbjHpTX0AC2CKoJPVqnV1zAzSYL5CiaDIWwsOJrPeJ1joJQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">Sign Up for Our Event</a>
+              <!-- Donate button: opens Stripe in a new tab -->
+              <a class="btn btn-secondary" href="https://buy.stripe.com/4gM5kD8Dy1Mm8DS6b5dMI00" target="_blank" rel="noopener noreferrer">Donate</a>
+            </div>
+          </div>
+
+          <!-- Subtle hero illustration (inline SVG so it’s self‑contained).
+               You can swap this with a photo by replacing the <svg> with an <img> tag. -->
+          <div class="hero-visual reveal" aria-hidden="true">
+            <svg viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Decorative illustration">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#eaf4ff"/>
+                  <stop offset="100%" stop-color="#ffeaf4"/>
+                </linearGradient>
+                <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#2e78ff" flood-opacity="0.18"/>
+                </filter>
+              </defs>
+              <rect x="10" y="10" width="500" height="340" rx="24" fill="url(#g1)" stroke="#cfe5ff"/>
+              <!-- Rays -->
+              <g fill="#2e78ff" opacity="0.18">
+                <circle cx="430" cy="100" r="36" />
+                <rect x="420" y="58" width="4" height="20" rx="2"/>
+                <rect x="420" y="124" width="4" height="20" rx="2"/>
+                <rect x="398" y="102" width="20" height="4" rx="2"/>
+                <rect x="444" y="102" width="20" height="4" rx="2"/>
+              </g>
+              <!-- Heart / ripple -->
+              <g transform="translate(100,90)" filter="url(#s)">
+                <path d="M100 140c-40-28-70-50-70-86 0-20 16-36 36-36 14 0 26 8 34 20 8-12 20-20 34-20 20 0 36 16 36 36 0 36-30 58-70 86z" fill="#2e78ff" opacity="0.12"/>
+                <circle cx="100" cy="150" r="58" fill="#2e78ff" opacity="0.06"/>
+                <circle cx="100" cy="150" r="84" fill="#2e78ff" opacity="0.04"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about">
+        <div class="container">
+          <div class="section-head reveal">
+            <div class="eyebrow">About Anastasia’s Light</div>
+            <h2 class="section-title">Honoring a daughter. Lifting our community.</h2>
+            <p class="section-sub">We raise funds and awareness for mental health nonprofits through community events and partnerships.</p>
+          </div>
+
+          <div class="about-grid">
+            <!-- Left: narrative text. Update this copy anytime. -->
+            <div class="about-card reveal">
+              <p>
+                Founded in loving memory of Anastasia, Anastasia’s Light is a registered 501(c)(3) nonprofit committed to shining hope on mental health. We collaborate with trusted organizations that provide therapy, crisis support, and equine-assisted services.
+              </p>
+              <p>
+                Every donation and event ticket helps expand access to compassionate care. Together, we can bring light to those navigating darkness and build resilient, healthy communities.
+              </p>
+              <p style="font-size:0.95rem; color:var(--muted)">
+                Anastasia’s Light Incorporated is a 501(c)(3) public charity. Contributions may be tax-deductible to the extent allowed by law.
+              </p>
+            </div>
+
+            <!-- Right: key facts card. Edit facts below. -->
+            <div class="about-card reveal">
+              <h3 style="margin-top:0">At a glance</h3>
+              <div class="facts">
+                <div class="fact"><b>Founded:</b> 2026</div>
+                <div class="fact"><b>Mission:</b> Mental health support</div>
+                <div class="fact"><b>First event:</b> Tread for Tomorrow</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Volunteers Section -->
+      <section id="volunteers">
+        <div class="container">
+          <div class="section-head reveal">
+            <div class="eyebrow">Meet the Volunteers</div>
+            <h2 class="section-title">Community-powered and heart-led</h2>
+            <p class="section-sub">A small team making a big, hopeful impact.</p>
+          </div>
+
+          <!-- Update volunteer cards (image src, names, roles, blurbs) -->
+          <div class="vol-grid">
+            <article class="card reveal" aria-label="Volunteer">
+              <div class="avatar">
+                <img src="https://via.placeholder.com/160/2e78ff/eaf4ff?text=AL" alt="Volunteer avatar placeholder" />
+              </div>
+              <h3 style="margin:0 0 0.25rem">Alex Morgan</h3>
+              <div class="role">Founder</div>
+              <p class="blurb">Honoring Anastasia’s legacy by expanding access to mental health care.</p>
+            </article>
+
+            <article class="card reveal" aria-label="Volunteer">
+              <div class="avatar">
+                <img src="https://via.placeholder.com/160/ffeaf4/2e78ff?text=EC" alt="Volunteer avatar placeholder" />
+              </div>
+              <h3 style="margin:0 0 0.25rem">Jamie Lee</h3>
+              <div class="role">Event Coordinator</div>
+              <p class="blurb">Designs uplifting, inclusive events that bring our community together.</p>
+            </article>
+
+            <article class="card reveal" aria-label="Volunteer">
+              <div class="avatar">
+                <img src="https://via.placeholder.com/160/eaf4ff/2e78ff?text=SP" alt="Volunteer avatar placeholder" />
+              </div>
+              <h3 style="margin:0 0 0.25rem">Riley Patel</h3>
+              <div class="role">Sponsorships</div>
+              <p class="blurb">Builds partnerships that multiply impact for local nonprofits.</p>
+            </article>
+
+            <article class="card reveal" aria-label="Volunteer">
+              <div class="avatar">
+                <img src="https://via.placeholder.com/160/2e78ff/ffeaf4?text=PR" alt="Volunteer avatar placeholder" />
+              </div>
+              <h3 style="margin:0 0 0.25rem">Taylor Brooks</h3>
+              <div class="role">Public Relations</div>
+              <p class="blurb">Shares stories of hope and connects people with resources.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Events Section -->
+      <section id="events">
+        <div class="container">
+          <div class="section-head reveal">
+            <div class="eyebrow">Schedule of Events</div>
+            <h2 class="section-title">Join us and make waves</h2>
+            <p class="section-sub">Sign up, bring a friend, and help shine a light.</p>
+          </div>
+
+          <!-- To add or edit events, duplicate or modify the .event-card block below. -->
+          <div class="events-grid">
+            <article class="card event-card reveal">
+              <h3 style="margin-top:0">Tread for Tomorrow</h3>
+              <div class="meta">
+                <div><b>Date:</b> Sunday, February 1, 2026</div>
+                <div><b>Time:</b> 2:00–4:00 pm</div>
+                <div><b>Location:</b> North Arundel Aquatic Center</div>
+                <div><b>Benefitting:</b> Maryland Therapeutic Riding</div>
+              </div>
+              <div class="event-actions">
+                <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSchbjHpTX0AC2CKoJPVqnV1zAzSYL5CiaDIWwsOJrPeJ1joJQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">Register</a>
+              </div>
+              <p class="note">
+                Corporate partnerships available:
+                <a href="mailto:TreadforTomorrow@gmail.com">TreadforTomorrow@gmail.com</a>
+                ·
+                <a href="mailto:Tread4Tsponsors@gmail.com">Tread4Tsponsors@gmail.com</a>
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gallery Section -->
+      <section id="gallery">
+        <div class="container">
+          <div class="section-head reveal">
+            <div class="eyebrow">Event Gallery</div>
+            <h2 class="section-title">Moments of light</h2>
+            <p class="section-sub">Photos from events and community partners.</p>
+          </div>
+
+          <!-- Replace image URLs with real photos later. Keep the same aspect ratio for best results. -->
+          <div class="gallery-grid">
+            <a class="reveal" href="#" aria-label="Gallery image">
+              <img src="https://via.placeholder.com/400x250/eaf4ff/2e78ff?text=Event+Photo+1" alt="Event photo placeholder 1" />
+            </a>
+            <a class="reveal" href="#" aria-label="Gallery image">
+              <img src="https://via.placeholder.com/400x250/ffeaf4/2e78ff?text=Event+Photo+2" alt="Event photo placeholder 2" />
+            </a>
+            <a class="reveal" href="#" aria-label="Gallery image">
+              <img src="https://via.placeholder.com/400x250/eaf4ff/2e78ff?text=Event+Photo+3" alt="Event photo placeholder 3" />
+            </a>
+            <a class="reveal" href="#" aria-label="Gallery image">
+              <img src="https://via.placeholder.com/400x250/ffeaf4/2e78ff?text=Event+Photo+4" alt="Event photo placeholder 4" />
+            </a>
+            <a class="reveal" href="#" aria-label="Gallery image">
+              <img src="https://via.placeholder.com/400x250/eaf4ff/2e78ff?text=Event+Photo+5" alt="Event photo placeholder 5" />
+            </a>
+            <a class="reveal" href="#" aria-label="Gallery image">
+              <img src="https://via.placeholder.com/400x250/ffeaf4/2e78ff?text=Event+Photo+6" alt="Event photo placeholder 6" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact">
+        <div class="container">
+          <div class="section-head reveal">
+            <div class="eyebrow">Contact</div>
+            <h2 class="section-title">We’d love to hear from you</h2>
+            <p class="section-sub">Reach out with questions, ideas, or support.</p>
+          </div>
+
+          <div class="contact-wrap">
+            <!-- Contact info card: update emails and phone below. -->
+            <div class="contact-card reveal">
+              <h3 style="margin-top:0">Contact Details</h3>
+              <p style="margin:0.5rem 0">
+                <b>General Inquiries:</b>
+                <a href="mailto:TreadforTomorrow@gmail.com">TreadforTomorrow@gmail.com</a>
+              </p>
+              <p style="margin:0.5rem 0">
+                <b>Sponsors:</b>
+                <a href="mailto:Tread4Tsponsors@gmail.com">Tread4Tsponsors@gmail.com</a>
+              </p>
+              <p style="margin:0.5rem 0"><b>Phone:</b> <a href="tel:+14432859982">(443) 285-9982</a></p>
+            </div>
+
+            <!-- Simple contact form: ready for Netlify Forms. -->
+            <form class="contact-card reveal" name="contact" method="post" data-netlify="true" netlify-honeypot="bot-field">
+              <!-- Netlify form fields -->
+              <input type="hidden" name="form-name" value="contact" />
+              <p style="display:none">
+                <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+              </p>
+
+              <div class="row">
+                <div>
+                  <label for="name">Name</label>
+                  <input id="name" name="name" type="text" placeholder="Your full name" />
+                </div>
+                <div>
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="you@example.com" />
+                </div>
+              </div>
+              <div style="margin-top:0.6rem">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="How can we help?"></textarea>
+              </div>
+              <div style="margin-top:0.8rem">
+                <button class="btn btn-primary" type="submit">Send Message</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Donate CTA Section (for navbar anchor). Buttons open Stripe in new tab. -->
+      <section id="donate" class="donate">
+        <div class="container">
+          <div class="cta reveal">
+            <div>
+              <div class="eyebrow">Donate</div>
+              <h3 style="margin:0.25rem 0 0.25rem">Fuel brighter days ahead</h3>
+              <p class="section-sub" style="margin:0">Your gift supports vital mental health services in our community.</p>
+            </div>
+            <div>
+              <a class="btn btn-primary" href="https://buy.stripe.com/4gM5kD8Dy1Mm8DS6b5dMI00" target="_blank" rel="noopener noreferrer">Give via Stripe</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        © 2025 Anastasia’s Light Incorporated — Treading water to shine a light on mental health.
+      </div>
+    </footer>
+
+    <script>
+      // Mobile nav toggle
+      const nav = document.querySelector('.nav');
+      const navToggle = document.getElementById('navToggle');
+      const navLinks = document.getElementById('primaryNav');
+      navToggle?.addEventListener('click', () => {
+        const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', String(!expanded));
+        nav.classList.toggle('open');
+      });
+      // Close nav when a link is clicked (mobile)
+      navLinks?.addEventListener('click', (e) => {
+        const target = e.target;
+        if (target && target.tagName === 'A') {
+          nav.classList.remove('open');
+          navToggle?.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Keep CSS --header-h in sync with real header height
+      const headerEl = document.querySelector('.site-header');
+      function updateHeaderHeightVar() {
+        const h = headerEl ? headerEl.offsetHeight : 64;
+        document.documentElement.style.setProperty('--header-h', h + 'px');
+      }
+      updateHeaderHeightVar();
+      window.addEventListener('resize', () => {
+        // Debounce via rAF for performance
+        window.requestAnimationFrame(updateHeaderHeightVar);
+      });
+
+      // Scrollspy: highlight nav link for section in view
+      const sections = Array.from(document.querySelectorAll('main[id], section[id]'));
+      const linkFor = (id) => document.querySelector(`.nav-links a[href="#${id}"]`);
+      const links = Array.from(document.querySelectorAll('.nav-links a'));
+      function setActiveNav(id) {
+        links.forEach(a => {
+          const isActive = a.getAttribute('href') === `#${id}`;
+          a.classList.toggle('active', isActive);
+          if (isActive) { a.setAttribute('aria-current', 'true'); }
+          else { a.removeAttribute('aria-current'); }
+        });
+      }
+      // Initial state
+      setActiveNav('home');
+      let ticking = false;
+      function onScrollSpy() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(() => {
+          const headerH = headerEl ? headerEl.offsetHeight : 64;
+          let current = sections[0]?.id || 'home';
+          for (const sec of sections) {
+            const rect = sec.getBoundingClientRect();
+            // Section considered active if its top has crossed the header and at least part is visible
+            if (rect.top - headerH <= 4 && rect.bottom > headerH + 24) {
+              current = sec.id;
+            }
+          }
+          setActiveNav(current);
+          ticking = false;
+        });
+      }
+      window.addEventListener('scroll', onScrollSpy, { passive: true });
+      window.addEventListener('resize', onScrollSpy);
+      // Also run on load to set correct state
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => { updateHeaderHeightVar(); onScrollSpy(); });
+      } else {
+        onScrollSpy();
+      }
+      // When clicking a nav link, set active immediately for responsiveness
+      navLinks?.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          const id = a.getAttribute('href')?.slice(1);
+          if (id) setActiveNav(id);
+        });
+      });
+
+      // IntersectionObserver for scroll-reveal animations
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReduced && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+      } else {
+        // Fallback: show everything if reduced motion or unsupported
+        document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+      }
+
+      // Optional smooth-scroll enhancement for some older browsers
+      // (Most modern browsers honor CSS scroll-behavior.)
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const id = link.getAttribute('href');
+          const target = id && document.querySelector(id);
+          if (target) {
+            // Let default CSS smooth behavior handle it
+            // If you prefer JS-driven scrolling, uncomment below:
+            // e.preventDefault();
+            // target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      // Lights overlay effect on initial load
+      // Creates soft beams and sparkles that fall, then fades away.
+      function launchLightsOverlay() {
+        if (prefersReduced) return; // Respect reduced motion
+
+        const overlay = document.createElement('div');
+        overlay.className = 'lights-overlay';
+        document.body.appendChild(overlay);
+
+        const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        const beamsCount = Math.min(10, Math.max(6, Math.floor(vw / 180))); // scale with width
+        for (let i = 0; i < beamsCount; i++) {
+          const b = document.createElement('div');
+          b.className = 'beam';
+          const left = Math.random() * 100; // percentage
+          const width = 8 + Math.random() * 14; // vw
+          const rot = (Math.random() * 10 - 5).toFixed(2) + 'deg';
+          const delay = Math.floor(Math.random() * 400); // ms
+          const dur = 2400 + Math.floor(Math.random() * 900); // ms
+          b.style.left = left + 'vw';
+          b.style.width = width + 'vw';
+          b.style.setProperty('--r', rot);
+          b.style.setProperty('--delay', delay + 'ms');
+          b.style.setProperty('--dur', dur + 'ms');
+          overlay.appendChild(b);
+        }
+
+        // Sparkles
+        const sparks = 14 + Math.floor(Math.random() * 10);
+        for (let i = 0; i < sparks; i++) {
+          const s = document.createElement('i');
+          s.className = 'spark';
+          const x = Math.floor(Math.random() * 100); // vw
+          const size = 8 + Math.floor(Math.random() * 10); // px
+          const sdelay = Math.floor(Math.random() * 700);
+          const sdur = 2600 + Math.floor(Math.random() * 1400);
+          const drift = (Math.random() * 60 - 30).toFixed(0) + 'px';
+          const scale = (0.8 + Math.random() * 0.8).toFixed(2);
+          s.style.left = x + 'vw';
+          s.style.setProperty('--sz', size + 'px');
+          s.style.setProperty('--sdelay', sdelay + 'ms');
+          s.style.setProperty('--sdur', sdur + 'ms');
+          s.style.setProperty('--drift', drift);
+          s.style.setProperty('--s', scale);
+          overlay.appendChild(s);
+        }
+
+        // Fade overlay out and remove after animations complete
+        const maxTime = 3800; // a bit longer than typical animations
+        setTimeout(() => {
+          overlay.style.transition = 'opacity 600ms ease';
+          overlay.style.opacity = '0';
+          setTimeout(() => overlay.remove(), 700);
+        }, maxTime);
+      }
+
+      // Run after content is interactive
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', launchLightsOverlay);
+      } else {
+        launchLightsOverlay();
+      }
+    </script>
+  </body>
+</html>
