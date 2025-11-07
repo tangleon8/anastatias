@@ -1,0 +1,29 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "img/uploads"
+public_folder: "/img/uploads"
+
+publish_mode: editorial_workflow
+
+collections:
+  - name: "site"
+    label: "Site Content"
+    files:
+      - file: "content/site.json"
+        name: "general"
+        label: "General"
+        description: "Edit key text and links on the site."
+        fields:
+          - { label: "Brand Title", name: brandTitle, widget: string }
+          - { label: "Hero Title", name: heroTitle, widget: string }
+          - { label: "Hero Subtitle", name: heroSubtitle, widget: text }
+          - { label: "Sign Up URL", name: signupUrl, widget: string }
+          - { label: "Donate URL", name: donateUrl, widget: string }
+          - { label: "About Eyebrow", name: aboutEyebrow, widget: string }
+          - { label: "About Title", name: aboutTitle, widget: string }
+          - { label: "About Paragraph 1", name: aboutP1, widget: text }
+          - { label: "About Paragraph 2", name: aboutP2, widget: text }
+          - { label: "Footer Text", name: footerText, widget: string }
+

@@ -715,6 +715,53 @@
     </footer>
 
     <script>
+      // Content loader: pull editable text/links from content/site.json
+      async function loadSiteContent() {
+        try {
+          const res = await fetch('content/site.json', { cache: 'no-cache' });
+          if (!res.ok) return;
+          const data = await res.json();
+          // Brand title
+          const brandText = document.querySelector('.brand span:nth-of-type(2)');
+          if (brandText && data.brandTitle) brandText.textContent = data.brandTitle;
+          // Hero
+          const heroTitle = document.querySelector('.hero h1');
+          const heroSub = document.querySelector('.hero p');
+          if (heroTitle && data.heroTitle) heroTitle.textContent = data.heroTitle;
+          if (heroSub && data.heroSubtitle) heroSub.textContent = data.heroSubtitle;
+          // Buttons
+          const signupBtn = document.querySelector('.cta-row a.btn-primary');
+          const donateBtn = document.querySelector('.cta-row a.btn-secondary');
+          if (signupBtn && data.signupUrl) signupBtn.setAttribute('href', data.signupUrl);
+          if (donateBtn && data.donateUrl) donateBtn.setAttribute('href', data.donateUrl);
+          // About section
+          const aboutEyebrow = document.querySelector('#about .eyebrow');
+          const aboutTitle = document.querySelector('#about .section-title');
+          const aboutCard = document.querySelector('#about .about-card');
+          const aboutParas = aboutCard ? aboutCard.querySelectorAll('p') : [];
+          if (aboutEyebrow && data.aboutEyebrow) aboutEyebrow.textContent = data.aboutEyebrow;
+          if (aboutTitle && data.aboutTitle) aboutTitle.textContent = data.aboutTitle;
+          if (aboutParas[0] && data.aboutP1) aboutParas[0].textContent = data.aboutP1;
+          if (aboutParas[1] && data.aboutP2) aboutParas[1].textContent = data.aboutP2;
+          // Events register link (first event)
+          const registerBtn = document.querySelector('#events .event-actions a.btn-primary');
+          if (registerBtn && data.signupUrl) registerBtn.setAttribute('href', data.signupUrl);
+          // Donate CTA button
+          const donateCta = document.querySelector('#donate .btn-primary');
+          if (donateCta && data.donateUrl) donateCta.setAttribute('href', data.donateUrl);
+          // Footer
+          const footer = document.querySelector('footer .container');
+          if (footer && data.footerText) footer.textContent = data.footerText;
+        } catch (e) {
+          // Fail silently; site still works with inline defaults
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadSiteContent);
+      } else {
+        loadSiteContent();
+      }
+
       // Mobile nav toggle
       const nav = document.querySelector('.nav');
       const navToggle = document.getElementById('navToggle');
