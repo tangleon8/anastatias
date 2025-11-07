@@ -777,9 +777,9 @@
         }
       }
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => { loadSiteContent(); loadVolunteers(); loadEvents(); loadGallery(); });
+        document.addEventListener('DOMContentLoaded', () => { loadSiteContent(); loadVolunteers(); loadEvents(); loadGallery(); loadContact(); });
       } else {
-        loadSiteContent(); loadVolunteers(); loadEvents(); loadGallery();
+        loadSiteContent(); loadVolunteers(); loadEvents(); loadGallery(); loadContact();
       }
 
       // Render Volunteers from JSON
@@ -845,6 +845,31 @@
               <img src="${img.url || ''}" alt="${img.alt || ''}" />
             </a>
           `).join('');
+        } catch {}
+      }
+
+      // Render Contact info from JSON
+      async function loadContact() {
+        try {
+          const res = await fetch('content/contact.json', { cache: 'no-cache' });
+          if (!res.ok) return;
+          const data = await res.json();
+          const infoCard = document.querySelector('#contact .contact-card');
+          if (!infoCard) return;
+          const anchors = infoCard.querySelectorAll('a');
+          const [generalA, sponsorsA, phoneA] = anchors;
+          if (generalA && data.generalEmail) {
+            generalA.textContent = data.generalEmail;
+            generalA.href = `mailto:${data.generalEmail}`;
+          }
+          if (sponsorsA && data.sponsorsEmail) {
+            sponsorsA.textContent = data.sponsorsEmail;
+            sponsorsA.href = `mailto:${data.sponsorsEmail}`;
+          }
+          if (phoneA && (data.phoneDisplay || data.phoneLink)) {
+            if (data.phoneDisplay) phoneA.textContent = data.phoneDisplay;
+            if (data.phoneLink) phoneA.href = `tel:${data.phoneLink}`;
+          }
         } catch {}
       }
 

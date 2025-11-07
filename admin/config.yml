@@ -71,3 +71,13 @@ collections:
             fields:
               - { label: Image, name: url, widget: image }
               - { label: Alt text, name: alt, widget: string }
+
+      - file: "content/contact.json"
+        name: "contact"
+        label: "Contact Info"
+        description: "Edit public contact details"
+        fields:
+          - { label: General Inquiries Email, name: generalEmail, widget: string }
+          - { label: Sponsors Email, name: sponsorsEmail, widget: string }
+          - { label: Phone (display), name: phoneDisplay, widget: string }
+          - { label: Phone (tel link), name: phoneLink, widget: string, hint: "e.g. +14432859982" }
