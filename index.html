@@ -8,6 +8,8 @@
     <meta name="theme-color" content="#2e78ff" />
     <!-- Google Font: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Netlify Identity widget for invite/login handling -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <!-- Favicon: inline SVG (blue gradient + heart) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%232e78ff'/%3E%3Cstop offset='100%25' stop-color='%2366a0ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect rx='12' width='64' height='64' fill='url(%23g)'/%3E%3Cpath d='M32 45c-8-5.6-14-10-14-17.2C18 22 22.5 18 28 18c2.9 0 5.6 1.5 7.4 3.9C37.3 19.5 40 18 43 18c5.5 0 10 4 10 9.8 0 7.2-6 11.6-14 17.2z' fill='%23ffffff' fill-opacity='0.95'/%3E%3C/svg%3E" />
 
@@ -713,6 +715,24 @@
         © 2025 Anastasia’s Light Incorporated — Treading water to shine a light on mental health.
       </div>
     </footer>
+
+    <script>
+      // Netlify Identity: handle invite/confirm tokens and redirect to /admin after login
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on('init', (user) => {
+          const hash = window.location.hash || '';
+          if (hash.includes('invite_token') || hash.includes('confirmation_token')) {
+            // Open widget so it can process the token from email link
+            window.netlifyIdentity.open('signup');
+          }
+          if (!user) {
+            window.netlifyIdentity.on('login', () => {
+              document.location.href = '/admin/';
+            });
+          }
+        });
+      }
+    </script>
 
     <script>
       // Content loader: pull editable text/links from content/site.json
