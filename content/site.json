@@ -1,13 +1,12 @@
 {
-  "brandTitle": "Anastasia’s Light",
-  "heroTitle": "Shining a light on mental health",
-  "heroSubtitle": "Anastasia’s Light is a 501(c)(3) created to honor Anastasia and support nonprofits providing life-changing mental health services for our community.",
-  "signupUrl": "https://docs.google.com/forms/d/e/1FAIpQLSchbjHpTX0AC2CKoJPVqnV1zAzSYL5CiaDIWwsOJrPeJ1joJQ/viewform?usp=publish-editor",
   "donateUrl": "https://buy.stripe.com/4gM5kD8Dy1Mm8DS6b5dMI00",
-  "aboutEyebrow": "About Anastasia’s Light",
+  "footerText": "© 2025 Anastasia’s Light Incorporated — Treading water to shine a light on mental health.",
   "aboutTitle": "Honoring a daughter. Lifting our community.",
   "aboutP1": "Founded in loving memory of Anastasia, Anastasia’s Light is a registered 501(c)(3) nonprofit committed to shining hope on mental health. We collaborate with trusted organizations that provide therapy, crisis support, and equine-assisted services.",
   "aboutP2": "Every donation and event ticket helps expand access to compassionate care. Together, we can bring light to those navigating darkness and build resilient, healthy communities.",
-  "footerText": "© 2025 Anastasia’s Light Incorporated — Treading water to shine a light on mental health."
+  "brandTitle": "Anastasia’s Light, Inc.",
+  "heroSubtitle": "Anastasia’s Light is a 501(c)(3) created to honor Anastasia and support nonprofits providing life-changing mental health services for our community.",
+  "signupUrl": "https://docs.google.com/forms/d/e/1FAIpQLSchbjHpTX0AC2CKoJPVqnV1zAzSYL5CiaDIWwsOJrPeJ1joJQ/viewform?usp=publish-editor",
+  "aboutEyebrow": "About Anastasia’s Light",
+  "heroTitle": "Shining a light on mental health"
 }
-
