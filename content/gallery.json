@@ -1,11 +1,36 @@
 {
   "items": [
-    { "url": "https://via.placeholder.com/400x250/eaf4ff/2e78ff?text=Event+Photo+1", "alt": "Event photo placeholder 1" },
-    { "url": "https://via.placeholder.com/400x250/ffeaf4/2e78ff?text=Event+Photo+2", "alt": "Event photo placeholder 2" },
-    { "url": "https://via.placeholder.com/400x250/eaf4ff/2e78ff?text=Event+Photo+3", "alt": "Event photo placeholder 3" },
-    { "url": "https://via.placeholder.com/400x250/ffeaf4/2e78ff?text=Event+Photo+4", "alt": "Event photo placeholder 4" },
-    { "url": "https://via.placeholder.com/400x250/eaf4ff/2e78ff?text=Event+Photo+5", "alt": "Event photo placeholder 5" },
-    { "url": "https://via.placeholder.com/400x250/ffeaf4/2e78ff?text=Event+Photo+6", "alt": "Event photo placeholder 6" }
+    {
+      "url": "/img/uploads/pic-7-gorgeous-a.jpg",
+      "alt": "Anastasia Gumbel"
+    },
+    {
+      "url": "/img/uploads/pic-1-mom-and-anastasia.jpg",
+      "alt": "Mom and Anastasia"
+    },
+    {
+      "url": "/img/uploads/pic-2-dad-and-anastasia.jpg",
+      "alt": "Dad with Anastasia"
+    },
+    {
+      "url": "/img/uploads/pic-3-olaf.jpg",
+      "alt": "Anastasia as Olaf at Longreach High School in Columbia, MD"
+    },
+    {
+      "url": "/img/uploads/pic-4-a-on-beach-house-deck.jpg",
+      "alt": "Summer fun in Hatteras, NC"
+    },
+    {
+      "url": "/img/uploads/pic-6-a-at-halloween.jpg",
+      "alt": "Anastasia and her Halloween buddy at a Target store (her favorite)"
+    },
+    {
+      "url": "/img/uploads/pic-8-christmas-a.jpg",
+      "alt": "Christmas, and the Festival of Lights"
+    },
+    {
+      "url": "/img/uploads/pic-5-a-at-senior-sunrise.jpg",
+      "alt": "Senior Sunrise to celebrate graduation year"
+    }
   ]
 }
-
