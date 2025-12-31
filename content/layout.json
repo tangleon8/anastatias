@@ -1,0 +1,18 @@
+{
+  "sectionsOrder": [
+    "about",
+    "volunteers",
+    "events",
+    "gallery",
+    "contact",
+    "donate"
+  ],
+  "show": {
+    "about": true,
+    "volunteers": true,
+    "events": true,
+    "gallery": true,
+    "contact": true,
+    "donate": true
+  }
+}

@@ -93,3 +93,76 @@ collections:
           - { label: Sponsors Email, name: sponsorsEmail, widget: string }
           - { label: Phone (display), name: phoneDisplay, widget: string }
           - { label: Phone (tel link), name: phoneLink, widget: string, hint: "e.g. +14432859982" }
+
+  - name: "design"
+    label: "Design & Theme"
+    files:
+      - file: "content/theme.json"
+        name: "theme"
+        label: "Theme"
+        description: "Colors, buttons, hero, volunteers grid"
+        fields:
+          - label: Colors
+            name: colors
+            widget: object
+            fields:
+              - { label: Accent, name: accent, widget: string, hint: "Hex color, e.g. #2e78ff" }
+              - { label: Accent (dark), name: accentDark, widget: string, hint: "Hex, e.g. #1f61e6" }
+              - { label: Light Blue, name: lightBlue, widget: string, hint: "Hex, e.g. #eaf4ff" }
+              - { label: Pink 50, name: pink50, widget: string, hint: "Hex, e.g. #ffeaf4" }
+              - { label: Pink 200, name: pink200, widget: string, hint: "Hex, e.g. #ffd3e7" }
+              - { label: Pink 400, name: pink400, widget: string, hint: "Hex, e.g. #ff9ac8" }
+              - { label: Text, name: text, widget: string, hint: "Hex, e.g. #1f2a44" }
+              - { label: Muted, name: muted, widget: string, hint: "Hex, e.g. #5b6b8a" }
+          - label: Buttons
+            name: buttons
+            widget: object
+            fields:
+              - { label: Style, name: style, widget: select, options: [rounded, pill, square], default: rounded }
+              - { label: Size, name: size, widget: select, options: [sm, md, lg], default: md }
+              - { label: Primary BG (optional), name: primaryBg, widget: string, required: false }
+              - { label: Primary Text (optional), name: primaryText, widget: string, required: false }
+              - { label: Secondary BG (optional), name: secondaryBg, widget: string, required: false }
+              - { label: Secondary Text (optional), name: secondaryText, widget: string, required: false }
+          - label: Corners
+            name: corners
+            widget: object
+            fields:
+              - { label: Global Radius, name: radius, widget: string, hint: "CSS size, e.g. 1rem" }
+              - { label: Avatar Shape, name: avatarShape, widget: select, options: [circle, rounded, square], default: circle }
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - { label: Alignment, name: alignment, widget: select, options: [left, center], default: left }
+              - { label: Background Type, name: backgroundType, widget: select, options: [svg, image], default: svg }
+              - { label: Background Image, name: backgroundImage, widget: image, required: false, allow_multiple: false }
+          - label: Volunteers Grid
+            name: volunteers
+            widget: object
+            fields:
+              - { label: Columns (desktop), name: columns, widget: number, value_type: int, min: 1, max: 6, default: 4 }
+
+  - name: "layout"
+    label: "Layout & Sections"
+    files:
+      - file: "content/layout.json"
+        name: "layout"
+        label: "Layout"
+        description: "Order sections and toggle visibility"
+        fields:
+          - label: Sections Order
+            name: sectionsOrder
+            widget: list
+            summary: "{{fields.item}}"
+            field: { label: Section ID, name: item, widget: select, options: [about, volunteers, events, gallery, contact, donate] }
+          - label: Show/Hide Sections
+            name: show
+            widget: object
+            fields:
+              - { label: About, name: about, widget: boolean, default: true }
+              - { label: Volunteers, name: volunteers, widget: boolean, default: true }
+              - { label: Events, name: events, widget: boolean, default: true }
+              - { label: Gallery, name: gallery, widget: boolean, default: true }
+              - { label: Contact, name: contact, widget: boolean, default: true }
+              - { label: Donate, name: donate, widget: boolean, default: true }

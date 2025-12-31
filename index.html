@@ -27,7 +27,7 @@
     <meta name="twitter:image" content="/img/uploads/pic-7-gorgeous-a.jpg" />
     <!-- Optional: set to your handle, e.g., @YourOrg -->
     <!-- <meta name="twitter:site" content="@your_handle" /> -->
-    
+
     <!-- Apple touch icon for iOS share sheets -->
     <link rel="apple-touch-icon" href="/icon.png" />
     <!-- Google Font: Poppins -->
@@ -51,6 +51,8 @@
         --blue-500: #2e78ff;
         --blue-600: #1f61e6;
         --pink-50: #ffeaf4;
+        --pink-200: #ffd3e7; /* new: a bit stronger than 50 */
+        --pink-400: #ff9ac8; /* new: accent border/shadow */
         --text: #1f2a44;
         --muted: #5b6b8a;
         --shadow: 0 10px 30px rgba(46, 120, 255, 0.08);
@@ -217,6 +219,25 @@
         .hamburger { display: none; }
       }
 
+      /* Donate button in nav: make it stand out */
+      .nav-links a.nav-donate {
+        background: linear-gradient(180deg, var(--blue-500), var(--blue-600));
+        color: #fff;
+        font-weight: 700;
+        box-shadow: 0 8px 24px rgba(46,120,255,0.25);
+        border: 0;
+      }
+      .nav-links a.nav-donate:hover {
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 12px 30px rgba(46,120,255,0.3);
+      }
+      /* Hide underline accent for donate button */
+      .nav-links a.nav-donate::after { content: none; }
+      @media (min-width: 860px) {
+        .nav-links a.nav-donate { margin-left: 0.25rem; }
+      }
+
       /* Hero */
       .hero {
         padding: 3rem 0 2.25rem;
@@ -242,16 +263,27 @@
       .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
       .btn {
         display: inline-flex; align-items: center; justify-content: center;
-        gap: 0.5rem; padding: 0.8rem 1.1rem; border-radius: 0.9rem;
+        gap: 0.5rem; padding: var(--btn-py, 0.8rem) var(--btn-px, 1.1rem); border-radius: var(--btn-radius, 0.9rem);
         font-weight: 600; border: 2px solid transparent; cursor: pointer;
         transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
       }
       .btn:focus { outline: none; }
-      .btn-primary { background: linear-gradient(180deg, var(--blue-500), var(--blue-600)); color: white; box-shadow: 0 8px 24px rgba(46,120,255,0.25); }
+      .btn-primary { background: var(--btn-primary-bg, linear-gradient(180deg, var(--blue-500), var(--blue-600))); color: var(--btn-primary-text, #ffffff); box-shadow: 0 8px 24px rgba(46,120,255,0.25); }
       .btn-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 12px 30px rgba(46,120,255,0.3); }
-      .btn-secondary { background: var(--pink-50); color: var(--blue-500); border-color: rgba(46,120,255,0.15); }
+      .btn-secondary { background: var(--btn-secondary-bg, var(--pink-50)); color: var(--btn-secondary-text, var(--blue-500)); border-color: rgba(46,120,255,0.15); }
       .btn-secondary:hover { transform: translateY(-2px) scale(1.02); box-shadow: var(--shadow-sm); }
       .btn:focus-visible { box-shadow: 0 0 0 3px rgba(46,120,255,0.35); }
+
+      /* Donate (hero) — higher emphasis next to primary */
+      .btn-donate {
+        background: linear-gradient(180deg, var(--pink-200), var(--pink-50));
+        color: var(--blue-600);
+        border-color: var(--pink-400);
+        box-shadow: 0 10px 28px rgba(255, 154, 200, 0.35);
+        font-weight: 700;
+      }
+      .btn-donate::after { content: '❤'; margin-left: 0.35rem; color: var(--pink-400); font-size: 0.95em; }
+      .btn-donate:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 14px 34px rgba(255, 154, 200, 0.42); }
 
       .hero-visual {
         background: linear-gradient(180deg, var(--blue-50), var(--pink-50));
@@ -309,7 +341,7 @@
         .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
       }
       .avatar {
-        width: 84px; height: 84px; border-radius: 999px; overflow: hidden; margin-bottom: 0.6rem;
+        width: 84px; height: 84px; border-radius: var(--avatar-radius, 999px); overflow: hidden; margin-bottom: 0.6rem;
         border: 4px solid var(--blue-50);
         box-shadow: 0 6px 18px rgba(46,120,255,0.12);
       }
@@ -486,13 +518,13 @@
           <a href="#events">Events</a>
           <a href="#gallery">Gallery</a>
           <a href="#contact">Contact</a>
-          <!-- Donate in nav scrolls to CTA section; buttons open Stripe in new tab. -->
-          <a href="#donate">Donate</a>
+          <!-- Donate in nav scrolls to CTA section; styled as a primary button -->
+          <a href="#donate" class="nav-donate" role="button" aria-label="Skip to Donate section">Donate</a>
         </nav>
       </div>
     </header>
 
-    <main id="home">
+    <maincl id="home">
       <!-- Hero Section -->
       <section class="hero">
         <div class="container hero-wrap">
@@ -504,8 +536,8 @@
             <div class="cta-row">
               <!-- Sign-up button: opens Google Form in a new tab -->
               <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSchbjHpTX0AC2CKoJPVqnV1zAzSYL5CiaDIWwsOJrPeJ1joJQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">Sign Up for Our Event</a>
-              <!-- Donate button: opens Stripe in a new tab -->
-              <a class="btn btn-secondary" href="https://buy.stripe.com/4gM5kD8Dy1Mm8DS6b5dMI00" target="_blank" rel="noopener noreferrer">Donate</a>
+              <!-- Donate button: emphasized style; opens Stripe in a new tab -->
+              <a class="btn btn-donate" href="https://buy.stripe.com/4gM5kD8Dy1Mm8DS6b5dMI00" target="_blank" rel="noopener noreferrer">Donate</a>
             </div>
           </div>
 
@@ -542,6 +574,8 @@
         </div>
       </section>
 
+
+
       <!-- About Section -->
       <section id="about">
         <div class="container">
@@ -561,7 +595,7 @@
                 Every donation and event ticket helps expand access to compassionate care. Together, we can bring light to those navigating darkness and build resilient, healthy communities.
               </p>
               <p style="font-size:0.95rem; color:var(--muted)">
-                Anastasia’s Light Incorporated is a 501(c)(3) public charity. Contributions may be tax-deductible to the extent allowed by law.
+                Anastasia’s Light Incorporated is a 501(c)(3) public charity. Contributions are tax-deductible to the extent allowed by law.
               </p>
             </div>
 
@@ -728,7 +762,7 @@
         </div>
       </section>
 
-      <!-- Donate CTA Section (for navbar anchor). Buttons open Stripe in new tab. -->
+      <!-- Donate CTA Section (moved back down near footer). Buttons open Stripe in new tab. -->
       <section id="donate" class="donate">
         <div class="container">
           <div class="cta reveal">
@@ -744,7 +778,7 @@
         </div>
       </section>
 
-    </main>
+    </maincl>
 
     <footer>
       <div class="container">
@@ -819,6 +853,120 @@
     </script>
 
     <script>
+      // Theme loader: apply design settings from content/theme.json
+      async function loadThemeSettings() {
+        try {
+          const res = await fetch('content/theme.json', { cache: 'no-cache' });
+          if (!res.ok) return;
+          const theme = await res.json();
+          const root = document.documentElement;
+
+          // Colors -> CSS variables
+          if (theme.colors) {
+            const c = theme.colors;
+            if (c.accent) root.style.setProperty('--blue-500', c.accent);
+            if (c.accentDark) root.style.setProperty('--blue-600', c.accentDark);
+            if (c.lightBlue) root.style.setProperty('--blue-50', c.lightBlue);
+            if (c.pink50) root.style.setProperty('--pink-50', c.pink50);
+            if (c.pink200) root.style.setProperty('--pink-200', c.pink200);
+            if (c.pink400) root.style.setProperty('--pink-400', c.pink400);
+            if (c.text) root.style.setProperty('--text', c.text);
+            if (c.muted) root.style.setProperty('--muted', c.muted);
+          }
+
+          // Corners
+          if (theme.corners) {
+            if (theme.corners.radius) root.style.setProperty('--radius', theme.corners.radius);
+            const shape = theme.corners.avatarShape;
+            if (shape === 'square') root.style.setProperty('--avatar-radius', '6px');
+            else if (shape === 'rounded') root.style.setProperty('--avatar-radius', '14px');
+            else root.style.setProperty('--avatar-radius', '999px');
+          }
+
+          // Buttons
+          if (theme.buttons) {
+            // Style -> radius
+            const style = theme.buttons.style;
+            let r = '0.9rem';
+            if (style === 'pill') r = '999px';
+            else if (style === 'square') r = '8px';
+            root.style.setProperty('--btn-radius', r);
+            // Size -> padding
+            const size = theme.buttons.size;
+            let py = '0.8rem', px = '1.1rem';
+            if (size === 'sm') { py = '0.6rem'; px = '0.9rem'; }
+            else if (size === 'lg') { py = '1rem'; px = '1.3rem'; }
+            root.style.setProperty('--btn-py', py);
+            root.style.setProperty('--btn-px', px);
+            // Optional color overrides
+            if (theme.buttons.primaryBg) root.style.setProperty('--btn-primary-bg', theme.buttons.primaryBg);
+            if (theme.buttons.primaryText) root.style.setProperty('--btn-primary-text', theme.buttons.primaryText);
+            if (theme.buttons.secondaryBg) root.style.setProperty('--btn-secondary-bg', theme.buttons.secondaryBg);
+            if (theme.buttons.secondaryText) root.style.setProperty('--btn-secondary-text', theme.buttons.secondaryText);
+          }
+
+          // Hero settings
+          if (theme.hero) {
+            const heroTextWrap = document.querySelector('.hero .reveal');
+            if (heroTextWrap && theme.hero.alignment === 'center') {
+              heroTextWrap.style.textAlign = 'center';
+            } else if (heroTextWrap) {
+              heroTextWrap.style.textAlign = 'left';
+            }
+
+            if (theme.hero.backgroundType === 'image' && theme.hero.backgroundImage) {
+              const visual = document.querySelector('.hero-visual');
+              if (visual) {
+                visual.innerHTML = '';
+                const img = document.createElement('img');
+                img.src = theme.hero.backgroundImage;
+                img.alt = 'Hero image';
+                img.style.width = '100%';
+                img.style.borderRadius = 'var(--radius)';
+                visual.appendChild(img);
+              }
+            }
+          }
+
+          // Volunteers grid columns (desktop)
+          if (theme.volunteers && typeof theme.volunteers.columns === 'number') {
+            const grid = document.querySelector('#volunteers .vol-grid');
+            if (grid) grid.style.gridTemplateColumns = `repeat(${theme.volunteers.columns}, 1fr)`;
+          }
+        } catch (e) {
+          console.warn('Theme settings not loaded:', e);
+        }
+      }
+
+      // Layout loader: order and toggle sections
+      async function loadLayoutSettings() {
+        try {
+          const res = await fetch('content/layout.json', { cache: 'no-cache' });
+          if (!res.ok) return;
+          const layout = await res.json();
+          const container = document.querySelector('main, maincl');
+          if (!container) return;
+
+          const ids = ['about','volunteers','events','gallery','contact','donate'];
+          // Toggle visibility
+          if (layout.show) {
+            ids.forEach(id => {
+              const sec = document.getElementById(id);
+              if (sec) sec.style.display = layout.show[id] === false ? 'none' : '';
+            });
+          }
+          // Reorder sections
+          if (Array.isArray(layout.sectionsOrder)) {
+            layout.sectionsOrder.forEach(id => {
+              const sec = document.getElementById(id);
+              if (sec && sec.parentElement === container) container.appendChild(sec);
+            });
+          }
+        } catch (e) {
+          console.warn('Layout settings not loaded:', e);
+        }
+      }
+
       // Content loader: pull editable text/links from content/site.json
       async function loadSiteContent() {
         try {
@@ -835,7 +983,7 @@
           if (heroSub && data.heroSubtitle) heroSub.textContent = data.heroSubtitle;
           // Buttons
           const signupBtn = document.querySelector('.cta-row a.btn-primary');
-          const donateBtn = document.querySelector('.cta-row a.btn-secondary');
+          const donateBtn = document.querySelector('.cta-row a.btn-secondary, .cta-row a.btn-donate');
           if (signupBtn && data.signupUrl) signupBtn.setAttribute('href', data.signupUrl);
           if (donateBtn && data.donateUrl) donateBtn.setAttribute('href', data.donateUrl);
           // About section
@@ -861,9 +1009,17 @@
         }
       }
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => { loadSiteContent(); loadVolunteers(); loadEvents(); loadGallery(); loadContact(); });
+        document.addEventListener('DOMContentLoaded', async () => {
+          await loadThemeSettings();
+          await loadLayoutSettings();
+          await Promise.all([loadSiteContent(), loadVolunteers(), loadEvents(), loadGallery(), loadContact()]);
+        });
       } else {
-        loadSiteContent(); loadVolunteers(); loadEvents(); loadGallery(); loadContact();
+        (async () => {
+          await loadThemeSettings();
+          await loadLayoutSettings();
+          await Promise.all([loadSiteContent(), loadVolunteers(), loadEvents(), loadGallery(), loadContact()]);
+        })();
       }
 
       // Render Volunteers from JSON

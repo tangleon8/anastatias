@@ -1,0 +1,32 @@
+{
+  "colors": {
+    "accent": "#2e78ff",
+    "accentDark": "#1f61e6",
+    "lightBlue": "#eaf4ff",
+    "pink50": "#ffeaf4",
+    "pink200": "#ffd3e7",
+    "pink400": "#ff9ac8",
+    "text": "#1f2a44",
+    "muted": "#5b6b8a"
+  },
+  "buttons": {
+    "style": "rounded",
+    "size": "md",
+    "primaryBg": "",
+    "primaryText": "",
+    "secondaryBg": "",
+    "secondaryText": ""
+  },
+  "corners": {
+    "radius": "1rem",
+    "avatarShape": "circle"
+  },
+  "hero": {
+    "alignment": "left",
+    "backgroundType": "svg",
+    "backgroundImage": ""
+  },
+  "volunteers": {
+    "columns": 4
+  }
+}
