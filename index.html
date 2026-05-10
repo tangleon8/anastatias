@@ -75,6 +75,9 @@
       html {
         scroll-behavior: smooth; /* Smooth scrolling for in-page anchors */
         scroll-padding-top: var(--header-h); /* prevent sticky header overlap on anchor jumps */
+        max-width: 100%;
+        overflow-x: hidden;
+        overflow-x: clip;
       }
 
       body {
@@ -87,12 +90,32 @@
           var(--white);
         line-height: 1.6;
         font-size: 16px;
+        max-width: 100%;
+        overflow-x: hidden;
+        overflow-x: clip;
       }
       @media (min-width: 900px) { body { font-size: 17px; } }
       @media (min-width: 1200px) { body { font-size: 18px; } }
 
       a { color: inherit; text-decoration: none; }
       img { max-width: 100%; display: block; }
+      main,
+      section,
+      header,
+      footer,
+      .container {
+        min-width: 0;
+      }
+      p,
+      a,
+      h1,
+      h2,
+      h3,
+      .note,
+      .meta,
+      .footer-text {
+        overflow-wrap: anywhere;
+      }
 
       .container {
         width: 100%;
@@ -145,6 +168,8 @@
         position: absolute;
         top: calc(var(--header-h) + 6px);
         right: 1rem;
+        left: 1rem;
+        max-width: calc(100vw - 2rem);
         background: var(--white);
         padding: 0.75rem;
         border-radius: calc(var(--radius) - 0.25rem);
@@ -213,7 +238,7 @@
       @media (min-width: 860px) {
         .nav { padding: 0.85rem 0; }
         .nav-links {
-          display: flex !important; position: static; flex-direction: row; background: transparent; box-shadow: none; border: 0; padding: 0; gap: 0.25rem;
+          display: flex !important; position: static; flex-direction: row; background: transparent; box-shadow: none; border: 0; padding: 0; gap: 0.25rem; max-width: none;
         }
         .nav-links a { padding: 0.5rem 0.75rem; }
         .hamburger { display: none; }
@@ -265,6 +290,8 @@
         display: inline-flex; align-items: center; justify-content: center;
         gap: 0.5rem; padding: var(--btn-py, 0.8rem) var(--btn-px, 1.1rem); border-radius: var(--btn-radius, 0.9rem);
         font-weight: 600; border: 2px solid transparent; cursor: pointer;
+        max-width: 100%;
+        text-align: center;
         transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
       }
       .btn:focus { outline: none; }
@@ -297,6 +324,93 @@
         .hero-wrap { grid-template-columns: 1.1fr 0.9fr; gap: 2.25rem; }
       }
 
+      /* Featured video */
+      .featured-video {
+        padding-top: 1.25rem;
+        background: linear-gradient(180deg, rgba(255,255,255,0), rgba(234,244,255,0.56));
+      }
+      .video-feature {
+        display: grid;
+        gap: 1rem;
+        align-items: center;
+        min-width: 0;
+      }
+      .video-copy {
+        max-width: 68ch;
+      }
+      .video-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        width: fit-content;
+        margin-bottom: 0.55rem;
+        padding: 0.35rem 0.7rem;
+        border-radius: 999px;
+        background: var(--blue-50);
+        color: var(--blue-500);
+        border: 1px solid rgba(46,120,255,0.15);
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+      .video-feature h2 {
+        margin: 0;
+        font-size: clamp(1.35rem, 3.2vw, 2.15rem);
+        line-height: 1.2;
+      }
+      .video-feature p {
+        margin: 0.75rem 0 0;
+        color: var(--muted);
+      }
+      .video-shell {
+        position: relative;
+        min-width: 0;
+        overflow: hidden;
+        border-radius: var(--radius);
+        background:
+          linear-gradient(135deg, rgba(46,120,255,0.14), rgba(255,234,244,0.9)),
+          #f8fafc;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid rgba(46,120,255,0.13);
+      }
+      .video-shell::before {
+        content: "";
+        display: block;
+        aspect-ratio: 16 / 9;
+      }
+      .video-shell video,
+      .video-fallback {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .video-shell video {
+        object-fit: cover;
+        background: #0f172a;
+      }
+      .video-fallback {
+        display: none;
+        place-items: center;
+        padding: 1rem;
+        text-align: center;
+        background: linear-gradient(135deg, var(--blue-50), var(--pink-50));
+      }
+      .video-fallback.is-visible { display: grid; }
+      .video-fallback p {
+        margin: 0 0 0.75rem;
+        color: var(--muted);
+      }
+      @media (min-width: 900px) {
+        .video-feature { grid-template-columns: 0.82fr 1.18fr; gap: 2rem; }
+      }
+      @media (max-width: 540px) {
+        .featured-video { padding-top: 0.75rem; }
+        .video-kicker { letter-spacing: 0.08em; }
+        .video-feature h2 { font-size: 1.35rem; }
+      }
+
       /* Sections */
       section { padding: 2.5rem 0; scroll-margin-top: var(--header-h); }
       /* Alternating section tint for rhythm */
@@ -323,12 +437,113 @@
       @media (min-width: 860px) { .about-grid { grid-template-columns: 1.2fr 0.8fr; gap: 1.5rem; } }
 
       /* Volunteers */
-      .vol-grid {
-        display: grid; gap: 1rem;
-        grid-template-columns: 1fr;
+      #volunteers {
+        background:
+          linear-gradient(180deg, rgba(255,234,244,0.42), rgba(234,244,255,0.58)),
+          var(--white);
       }
-      @media (min-width: 640px) { .vol-grid { grid-template-columns: repeat(2, 1fr); } }
-      @media (min-width: 980px) { .vol-grid { grid-template-columns: repeat(4, 1fr); } }
+      #volunteers .section-head {
+        max-width: 760px;
+        margin: 0 auto 1.6rem;
+        text-align: center;
+      }
+      #volunteers .section-title::after {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #volunteers .section-title {
+        overflow-wrap: normal;
+        word-break: normal;
+      }
+      .vol-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+        align-items: stretch;
+        min-width: 0;
+      }
+      @media (min-width: 980px) {
+        .vol-grid { grid-template-columns: repeat(var(--volunteer-columns, 5), minmax(0, 1fr)); }
+      }
+      #volunteers .card {
+        position: relative;
+        min-height: 100%;
+        padding: 1.25rem 1rem;
+        text-align: center;
+        overflow: hidden;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.88)),
+          var(--white);
+        border-color: rgba(46,120,255,0.13);
+      }
+      #volunteers .card::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto;
+        height: 5px;
+        background: linear-gradient(90deg, var(--blue-500), var(--pink-400));
+      }
+      #volunteers .avatar {
+        width: 108px;
+        height: 108px;
+        margin: 0 auto 0.85rem;
+        border-width: 5px;
+        background: var(--blue-50);
+      }
+      #volunteers .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      #volunteers h3 {
+        line-height: 1.25;
+      }
+      #volunteers .role {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.15rem;
+        margin-top: 0.25rem;
+        padding: 0.32rem 0.65rem;
+        border-radius: 999px;
+        background: var(--blue-50);
+        border: 1px solid rgba(46,120,255,0.14);
+      }
+      #volunteers .blurb {
+        margin: 0.75rem auto 0;
+        max-width: 28ch;
+      }
+      @media (max-width: 699px) {
+        .vol-grid {
+          grid-template-columns: 1fr;
+        }
+        #volunteers {
+          padding-top: 2.1rem;
+          padding-bottom: 2.1rem;
+        }
+        #volunteers .section-head {
+          margin: 0 0 1.25rem;
+          text-align: left;
+        }
+        #volunteers .section-title::after { margin-left: 0; margin-right: 0; }
+        #volunteers .card {
+          text-align: left;
+          padding: 1rem;
+        }
+        #volunteers .avatar {
+          width: 84px;
+          height: 84px;
+          margin-left: 0;
+          margin-right: 0;
+        }
+        #volunteers .role {
+          justify-content: center;
+        }
+        #volunteers .blurb {
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
       .card {
         background: var(--white);
         border-radius: var(--radius);
@@ -450,6 +665,29 @@
       .reveal.in-view { opacity: 1; transform: translateY(0); }
       @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
 
+      @media (max-width: 540px) {
+        .container { padding-left: 0.85rem; padding-right: 0.85rem; }
+        .brand { min-width: 0; font-size: 0.98rem; }
+        .brand span:last-child {
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .cta-row .btn,
+        .event-actions .btn,
+        .donate .btn {
+          width: 100%;
+        }
+        .hero-visual { padding: 0.75rem; }
+        .contact-card,
+        .about-card,
+        .card,
+        .donate .cta {
+          padding: 0.9rem;
+        }
+      }
+
       /* Lights overlay animation (on load) */
       .lights-overlay {
         position: fixed; inset: 0; pointer-events: none; overflow: hidden;
@@ -524,7 +762,7 @@
       </div>
     </header>
 
-    <maincl id="home">
+    <main id="home">
       <!-- Hero Section -->
       <section class="hero">
         <div class="container hero-wrap">
@@ -575,6 +813,34 @@
       </section>
 
 
+      <!-- Featured Video Section -->
+      <section id="press" class="featured-video" aria-labelledby="press-title">
+        <div class="container video-feature reveal">
+          <div class="video-copy">
+            <div class="video-kicker">CBS News Baltimore</div>
+            <h2 id="press-title">Tread for Tomorrow featured on CBS News Baltimore</h2>
+            <p>
+              Watch the story from our first Tread for Tomorrow event, where our community gathered to honor Anastasia and support mental health care.
+            </p>
+          </div>
+          <div class="video-shell" data-hls-video>
+            <video
+              id="treadVideo"
+              controls
+              playsinline
+              preload="metadata"
+              aria-label="CBS News Baltimore coverage of the first Tread for Tomorrow event"
+            ></video>
+            <div class="video-fallback" id="treadVideoFallback">
+              <div>
+                <p>This video may need to open directly in your browser.</p>
+                <a class="btn btn-primary" href="https://prod.vodvideo.cbsnews.com/cbsnews/vr/hls/4348161_hls/master.m3u8" target="_blank" rel="noopener noreferrer">Open CBS Video</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       <!-- About Section -->
       <section id="about">
@@ -623,7 +889,7 @@
 
           <!-- Update volunteer cards (image src, names, roles, blurbs) -->
           <div class="vol-grid">
-            <article class="card reveal" aria-label="Volunteer">
+            <article class="card volunteer-card reveal" aria-label="Volunteer">
               <div class="avatar">
                 <img src="https://via.placeholder.com/160/2e78ff/eaf4ff?text=AL" alt="Volunteer avatar placeholder" />
               </div>
@@ -632,7 +898,7 @@
               <p class="blurb">Honoring Anastasia’s legacy by expanding access to mental health care.</p>
             </article>
 
-            <article class="card reveal" aria-label="Volunteer">
+            <article class="card volunteer-card reveal" aria-label="Volunteer">
               <div class="avatar">
                 <img src="https://via.placeholder.com/160/ffeaf4/2e78ff?text=EC" alt="Volunteer avatar placeholder" />
               </div>
@@ -641,7 +907,7 @@
               <p class="blurb">Designs uplifting, inclusive events that bring our community together.</p>
             </article>
 
-            <article class="card reveal" aria-label="Volunteer">
+            <article class="card volunteer-card reveal" aria-label="Volunteer">
               <div class="avatar">
                 <img src="https://via.placeholder.com/160/eaf4ff/2e78ff?text=SP" alt="Volunteer avatar placeholder" />
               </div>
@@ -650,7 +916,7 @@
               <p class="blurb">Builds partnerships that multiply impact for local nonprofits.</p>
             </article>
 
-            <article class="card reveal" aria-label="Volunteer">
+            <article class="card volunteer-card reveal" aria-label="Volunteer">
               <div class="avatar">
                 <img src="https://via.placeholder.com/160/2e78ff/ffeaf4?text=PR" alt="Volunteer avatar placeholder" />
               </div>
@@ -778,7 +1044,7 @@
         </div>
       </section>
 
-    </maincl>
+    </main>
 
     <footer>
       <div class="container">
@@ -834,6 +1100,7 @@
       </div>
     </dialog>
 
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
     <script>
       // Netlify Identity: handle invite/confirm tokens and redirect to /admin after login
       if (window.netlifyIdentity) {
@@ -853,6 +1120,30 @@
     </script>
 
     <script>
+      function initTreadVideo() {
+        const video = document.getElementById('treadVideo');
+        const fallback = document.getElementById('treadVideoFallback');
+        const src = 'https://prod.vodvideo.cbsnews.com/cbsnews/vr/hls/4348161_hls/master.m3u8';
+        if (!video) return;
+
+        if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          video.src = src;
+          return;
+        }
+
+        if (window.Hls && window.Hls.isSupported()) {
+          const hls = new window.Hls();
+          hls.loadSource(src);
+          hls.attachMedia(video);
+          hls.on(window.Hls.Events.ERROR, (_, data) => {
+            if (data && data.fatal && fallback) fallback.classList.add('is-visible');
+          });
+          return;
+        }
+
+        if (fallback) fallback.classList.add('is-visible');
+      }
+
       // Theme loader: apply design settings from content/theme.json
       async function loadThemeSettings() {
         try {
@@ -928,10 +1219,9 @@
             }
           }
 
-          // Volunteers grid columns (desktop)
+          // Volunteers grid columns (desktop only; mobile CSS controls small screens)
           if (theme.volunteers && typeof theme.volunteers.columns === 'number') {
-            const grid = document.querySelector('#volunteers .vol-grid');
-            if (grid) grid.style.gridTemplateColumns = `repeat(${theme.volunteers.columns}, 1fr)`;
+            root.style.setProperty('--volunteer-columns', theme.volunteers.columns);
           }
         } catch (e) {
           console.warn('Theme settings not loaded:', e);
@@ -1010,12 +1300,14 @@
       }
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', async () => {
+          initTreadVideo();
           await loadThemeSettings();
           await loadLayoutSettings();
           await Promise.all([loadSiteContent(), loadVolunteers(), loadEvents(), loadGallery(), loadContact()]);
         });
       } else {
         (async () => {
+          initTreadVideo();
           await loadThemeSettings();
           await loadLayoutSettings();
           await Promise.all([loadSiteContent(), loadVolunteers(), loadEvents(), loadGallery(), loadContact()]);
@@ -1031,8 +1323,12 @@
           if (!Array.isArray(volunteers)) return;
           const grid = document.querySelector('#volunteers .vol-grid');
           if (!grid) return;
+          const classFor = (name) => String(name || '')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-|-$/g, '');
           grid.innerHTML = volunteers.map(v => `
-            <article class="card reveal in-view" aria-label="Volunteer">
+            <article class="card volunteer-card volunteer-${classFor(v.name)} reveal in-view" aria-label="Volunteer">
               <div class="avatar">
                 <img src="${v.avatarUrl || ''}" alt="${(v.name || 'Volunteer') + ' avatar'}" />
               </div>
