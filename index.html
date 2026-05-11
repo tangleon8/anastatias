@@ -363,6 +363,15 @@
         margin: 0.75rem 0 0;
         color: var(--muted);
       }
+      .video-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 1rem;
+      }
+      .video-links .btn-secondary {
+        background: rgba(255,255,255,0.82);
+      }
       .video-shell {
         position: relative;
         min-width: 0;
@@ -822,6 +831,9 @@
             <p>
               Watch the story from our first Tread for Tomorrow event, where our community gathered to honor Anastasia and support mental health care.
             </p>
+            <div class="video-links">
+              <a class="btn btn-secondary" href="https://www.cbsnews.com/baltimore/news/maryland-anastasia-suicide-depression-light-mental-health" target="_blank" rel="noopener noreferrer">Read the CBS News Story</a>
+            </div>
           </div>
           <div class="video-shell" data-hls-video>
             <video
