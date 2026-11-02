@@ -7,13 +7,13 @@ function Wrapper({ children }) {
   return h('div', { className: 'container' }, children);
 }
 
-function Hero({ title, subtitle, signupUrl, donateUrl }) {
+function Hero({ title, subtitle, signupUrl, signupText, donateUrl }) {
   return h('section', { className: 'hero section' },
     h('div', { className: 'container' },
       h('h1', null, title || 'Shining a light on mental health'),
       h('p', { className: 'section-sub' }, subtitle || ''),
       h('div', { className: 'cta-row' },
-        signupUrl && h('a', { className: 'btn btn-primary', href: '#' }, 'Sign Up for Our Event'),
+        h('a', { className: 'btn btn-primary', href: '#' }, signupText || 'Sign Up Coming Soon for March 13, 2027!'),
         donateUrl && h('a', { className: 'btn btn-secondary', href: '#' }, 'Donate')
       )
     )
@@ -29,8 +29,7 @@ function About({ eyebrow, title, p1, p2 }) {
         h('p', { className: 'section-sub' }, 'Preview of the About content below')
       ),
       h('div', { className: 'card' },
-        h('p', null, p1 || ''),
-        h('p', null, p2 || '')
+        ...[p1, p2].flatMap((text, block) => (text || '').split(/\n\s*\n/).map((paragraph, i) => h('p', { key: `${block}-${i}` }, paragraph)))
       )
     )
   );
@@ -61,10 +60,11 @@ function Events({ upcoming, past }) {
       ev.date && h('div', null, h('b', null, 'Date: '), ev.date),
       ev.time && h('div', null, h('b', null, 'Time: '), ev.time),
       ev.location && h('div', null, h('b', null, 'Location: '), ev.location),
-      ev.beneficiary && h('div', null, h('b', null, 'Benefitting: '), ev.beneficiary)
+      ev.beneficiary && h('div', null, h('b', null, 'Benefitting: '), ev.beneficiary),
+      !isPast && ev.registrationStatus && h('div', null, h('b', null, 'Registration: '), ev.registrationStatus)
     ),
     h('div', { className: 'event-actions' },
-      ev.registerUrl && h('a', { className: 'btn btn-primary', href: '#' }, isPast ? 'Details' : 'Register')
+      ev.registerUrl ? h('a', { className: 'btn btn-primary', href: '#' }, isPast ? 'Details' : 'Register') : (!isPast && ev.registrationText && h('p', { className: 'note' }, ev.registrationText))
     ),
     ev.note && h('p', { className: 'note' }, ev.note)
   );
@@ -119,6 +119,7 @@ CMS.registerPreviewTemplate('general', ({ entry }) => {
       title: data.get('heroTitle'),
       subtitle: data.get('heroSubtitle'),
       signupUrl: data.get('signupUrl'),
+      signupText: data.get('signupText'),
       donateUrl: data.get('donateUrl')
     }),
     About({
